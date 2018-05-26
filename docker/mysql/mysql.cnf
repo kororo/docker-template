@@ -1,0 +1,3 @@
+[mysqld]
+innodb_log_file_size=512M
+innodb_buffer_pool_size=4G
