@@ -14,6 +14,44 @@ List of requirements to get the template working:
 - Docker compose
 
 
+Installation
+------------
+
+MacOS
+^^^^^
+
+- Install `Docker for Mac <https://store.docker.com/editions/community/docker-ce-desktop-mac>`_
+
+
+UNIX
+^^^^
+
+.. code:: bash
+
+    ### Docker Installation ###
+    # install docker-ce with edge engine
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt-get update && sudo apt-get install -y docker-ce
+
+    # install docker-compose
+    sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+
+    # prepare the users
+    sudo usermod -aG docker ubuntu
+
+    # restart to take effect
+    sudo service docker restart
+
+    # relog the SSH
+    exit
+
+    # verify docker
+    docker ps
+    ### End Docker Installation ###
+
+
 Quick Usage
 -----------
 
@@ -112,18 +150,18 @@ Wordpress WIKI
 Quick wiki for daily tasks around docker. This is temporary space until there is better place to put.
 
 Database not created
-++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^
 
 Just delete all /data/mysql directory, to start from scratch.
 
 Import mysql database
-+++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^
 
 Ensure you have mysql container in the configuration and your sql file in /data/backup.sql directory.
 Change the database username, password in wordpress.yml if necessary
 
 MacOS/UNIX
-++++++++++
+^^^^^^^^^^
 
 .. code:: bash
 
