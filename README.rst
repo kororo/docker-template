@@ -60,6 +60,25 @@ Rapid commands to use the template. Notes:
 - PROJECT_NAME: Represent your project name
 - COMPOSE_YML: This is the docker compose yaml configuration choosen (eg. ./docker/wordpress.yml)
 
+What is docker.sh?
+------------------
+
+It is shortcut to execute docker commands, at the moment only available for UNIX environment. If you are not interested
+to use **docker.sh**, please check more in `docs/docker <https://github.com/kororo/docker-template/tree/master/docs/docker.rst>`_
+
+.. code:: bash
+
+    # ensure you have execute permission
+    chmod +x docker.sh
+
+    # if you feel this script is worth to use globally, "docker-template start"
+    cp ./docker.sh /usr/local/bin/docker-template
+
+    # change the configuration inside docker.config
+    PROJECT_NAME=wordpress
+    COMPOSE_YML=./docker/wordpress.yml
+
+
 Build & Up (Detached)
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -70,10 +89,11 @@ MacOS/UNIX
 
 .. code:: bash
 
-    PROJECT_NAME=wordpress
-    COMPOSE_YML=./docker/wordpress.yml
+    # run in foreground
+    ./docker.sh start
 
-    docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} build && docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} up -d
+    # run in background
+    ./docker.sh start -d
 
 Execute Script
 ^^^^^^^^^^^^^^
@@ -85,15 +105,15 @@ MacOS/UNIX
 
 .. code:: bash
 
-    PROJECT_NAME=wordpress
-    COMPOSE_YML=./docker/wordpress.yml
-    SERVICE_NAME=php
+    # echo in container
+    ./docker.sh exec echo "hello"
 
-    # execute bash in command mode
-    docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} exec ${SERVICE_NAME} bash -c "echo A"
+    # SSH-ing into container
+    ./docker.sh ssh
 
-    # or simply SSH into the service/container
-    docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} exec ${SERVICE_NAME} bash
+    # run bash
+    ./docker.sh exec bash -c "echo 'hello'"
+
 
 Stop
 ^^^^
@@ -105,11 +125,26 @@ MacOS/UNIX
 
 .. code:: bash
 
-    PROJECT_NAME=wordpress
-    COMPOSE_YML=./docker/wordpress.yml
+    ./docker.sh stop
 
-    docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} stop
+Following Logs
+^^^^^^^^^^^^^^
 
+Watching logs in containers
+
+MacOS/UNIX
+++++++++++
+
+.. code:: bash
+
+    # watch all logs
+    ./docker.sh logs
+
+    # tail the logs
+    ./docker.sh logs -f
+
+    # get specific container log
+    ./docker.sh logs mysql
 
 Remove
 ^^^^^^
@@ -121,15 +156,11 @@ MacOS/UNIX
 
 .. code:: bash
 
-    PROJECT_NAME=wordpress
-    COMPOSE_YML=./docker/wordpress.yml
+    # remove all container and network
+    ./docker.sh remove
 
-    # remove container, and network
-    docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} down
-
-    # remove volume (your data)
-    docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} down -v
-
+    # remove all including volume
+    ./docker.sh remove -v
 
 Directory Structures
 --------------------
@@ -144,36 +175,28 @@ Directory Structures
 
 - src: The main code of your applications
 
-Wordpress WIKI
---------------
+- docker.sh: shortcut docker commands
 
-Quick wiki for daily tasks around docker. This is temporary space until there is better place to put.
+Spaces
+------
 
-Database not created
-^^^^^^^^^^^^^^^^^^^^
+Spaces is the way to organised what application you could bootstrap quickly
 
-Just delete all /data/mysql directory, to start from scratch.
+- Wordpress: `docs/wordpress <https://github.com/kororo/docker-template/tree/master/docs/wordpress.rst>`_
+- PHP7: `docs/php <https://github.com/kororo/docker-template/tree/master/docs/php.rst>`_
 
-Import mysql database
-^^^^^^^^^^^^^^^^^^^^^
+FAQ
+---
 
-Ensure you have mysql container in the configuration and your sql file in /data/backup.sql directory.
-Change the database username, password in wordpress.yml if necessary
+**Q: Why you use specific version of Docker image?**
 
-MacOS/UNIX
-^^^^^^^^^^
+A: The reason of this project is to show the basic guideline on how to use the Docker. It is recommended for you to go fork the repo and change to your specific needs.
 
-.. code:: bash
-
-    PROJECT_NAME=wordpress
-    COMPOSE_YML=./docker/wordpress.yml
-    SERVICE_NAME=mysql
-
-    docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_YML} exec ${SERVICE_NAME} bash -c "mysql -u wordpress_user -pwordpress_password1 wordpress < /data/backup.sql"
 
 TODO
 ----
 
 - [ ] Add more commands for Windows
-- [ ] Add bash script startup commands
+- [X] Add bash script startup commands
+- [ ] Add more environment variables for port
 

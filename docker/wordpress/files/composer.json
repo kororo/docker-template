@@ -1,0 +1,30 @@
+{
+  "name": "kororo/wordpress",
+  "description": "Wordpress site",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "johnpbloch/wordpress": "4.9.5",
+    "wpackagist-plugin/custom-post-type-ui": "^1.5.8"
+  },
+  "extra": {
+    "wordpress-install-dir": "wp",
+    "installer-paths": {
+      "wp/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "wp/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    }
+  },
+  "autoload": {
+    "psr-0": {
+      "Acme": "src/"
+    }
+  }
+}
