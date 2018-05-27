@@ -1,23 +1,27 @@
 version: "3.1"
 services:
-  wordpress:
-    build: "./wordpress"
-    hostname: "wordpress"
+  php:
+    build: "./php"
+    hostname: "php"
     ports:
       - "10001:80"
+    restart: on-failure
     logging:
       options:
         max-size: 128m
-    environment:
-      WORDPRESS_DB_PASSWORD: wordpress_password1
     volumes:
-      - "./../src:/var/www/html"
+      - "./../src/wp:/var/www/html"
       - "./../data:/data"
+    depends_on:
+      - mysql
   mysql:
     build: "./mysql"
     hostname: "mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: wordpress_password1
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress_user
+      - MYSQL_PASSWORD=wordpress_password1
     ports:
       - "10002:3306"
     restart: on-failure

@@ -3,7 +3,7 @@ FROM php:7.1.17-apache
 # upgrade packages
 RUN apt-get update && \
     apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev libcurl4-openssl-dev libxml2-dev \
-    vim wget mysql-client git
+    vim wget mysql-client git iputils-ping telnet
 
 # install PHP extensions
 # curl dom fileinfo iconv json mbstring pdo xml
