@@ -10,8 +10,10 @@ services:
       options:
         max-size: 128m
     volumes:
-      - "./../src:/var/www/html"
+      - "./../src/wp:/var/www/html"
       - "./../data:/data"
+    depends_on:
+      - "mysql"
   mysql:
     build: "./mysql"
     hostname: "mysql"
