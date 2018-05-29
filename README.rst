@@ -5,6 +5,14 @@ Docker Template
 List of docker template for quick deployment.
 
 
+Why?
+----
+
+Reason there is existance of this project is based on my own experience. I been working for at least 10+ projects with docker.
+My main reason of using docker is to eliminate of "tedious" command line execution to start up my environment. Yes, it is true
+most of the heavy lifted by Docker + docker-compose but it is still lots of commands to remember and typing, especially if you
+have bit custom than usual.
+
 Requirements
 ------------
 
@@ -190,8 +198,14 @@ FAQ
 
 **Q: Why you use specific version of Docker image?**
 
-A: The reason of this project is to show the basic guideline on how to use the Docker. It is recommended for you to go fork the repo and change to your specific needs.
+A: The reason of this project is to show the basic guideline on how to use the Docker.
+It is recommended for you to go fork the repo and change to your specific needs.
 
+
+**Q: Where is Windows version?**
+
+A: I use Windows just pure gaming experience in the past 2 years. I will put this into the least things to do in the project.
+If someone keen enough to do PR for me to do powershell, that would be awesome.
 
 TODO
 ----
@@ -199,4 +213,6 @@ TODO
 - [ ] Add more commands for Windows
 - [X] Add bash script startup commands
 - [ ] Add more environment variables for port
+- [ ] Do deployment with kubernetes
+- [ ] Add more docker recipe for python, solr, psql, neo4j, mongo, nodejs
 
