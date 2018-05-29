@@ -1,0 +1,29 @@
+version: "3.1"
+services:
+  python:
+    build: "./python"
+    command: "/files/start.sh"
+    hostname: "web"
+    logging:
+      options:
+        max-size: 128m
+    volumes:
+      - "./../src:/web"
+      - "./../data:/data"
+    depends_on:
+      - psql
+  psql:
+    build: "./psql"
+    hostname: "psql"
+    environment:
+      - POSTGRES_USER=psql_user
+      - POSTGRES_PASSWORD=psql_password1
+      - POSTGRES_DB=psql_db
+      - PGDATA=/var/lib/postgresql/data
+    logging:
+      options:
+        max-size: 128m
+    volumes:
+      - "./../data/psql:/var/lib/postgresql/data"
+    ports:
+      - "10001:5432"

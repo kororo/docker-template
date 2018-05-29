@@ -19,18 +19,13 @@ Quick Start
 FAQ
 ---
 
-403 Forbidden
-^^^^^^^^^^^^^
-
-Just drop your php files into "src" folder. By default, it has empty folder.
-
 Database not created
 ^^^^^^^^^^^^^^^^^^^^
 
 Just delete all /data/mysql directory, to start from scratch.
 
 Import/export mysql database
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Ensure you have mysql container in the configuration and your sql file in /data/backup.sql directory.
 Change the database username, password in wordpress.yml if necessary. Ensure the database host is "mysql"

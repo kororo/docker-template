@@ -1,6 +1,50 @@
----------------
+------
+Docker
+------
+
+This is knowledge based for Docker related.
+
+KB
+--
+
+Docker logs for process PID != 1
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you have docker and spawn multiple processes. You will start notice there is no logs outputed into docker logs.
+This due to Docker arch only listen to the process PID == 1. How to fix this is to redirect the stdout to PID 1.
+
+.. code:: bash
+
+    # create bash script to run this command when docker is running
+    # in docker-compose.yml you can do:
+    # command: "/script/start.sh"
+
+    #!/usr/bin/env bash
+    tail -n 0 -q -F /your/app/dir/logs/*.log >> /proc/1/fd/1 &
+
+
+Make process running forever in Docker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Sometime, when you create your own bootstrap script for your container. You need something to run forever to keep the
+Docker container to not exited.
+
+.. code:: bash
+
+    # create bash script to run this command when docker is running
+    # in docker-compose.yml you can do:
+    # command: "/script/start.sh"
+
+    #!/usr/bin/env bash
+
+    echo "Running app ..."
+    trap : TERM INT; sleep infinity & wait
+
+
 Docker Commands
 ---------------
+
+List of nice docker-compose commands.
 
 Build & Up (Detached)
 ^^^^^^^^^^^^^^^^^^^^^
