@@ -1,27 +1,21 @@
 version: "3.1"
 services:
   php:
-    build: "./php"
+    build: "./drupal"
     hostname: "php"
-    ports:
-      - "10001:80"
-    restart: on-failure
+    environment:
+      - DRUPAL_ENV
     logging:
       options:
         max-size: 128m
     volumes:
-      - "./../src/wp:/var/www/html"
+      - "./../src:/var/www/html"
       - "./../data:/data"
-    depends_on:
-      - mysql
+    ports:
+      - "10001:80"
   mysql:
     build: "./mysql"
     hostname: "mysql"
-    environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=wordpress_user
-      - MYSQL_PASSWORD=wordpress_password1
     ports:
       - "10002:3306"
     restart: on-failure
@@ -31,5 +25,3 @@ services:
     volumes:
       - "./../data/mysql:/var/lib/mysql"
       - "./../data:/data"
-volumes:
-  mysql:
