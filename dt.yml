@@ -1,0 +1,28 @@
+dt:
+  name: 'dt'
+  debug: true
+  # allowed extensions
+  extensions:
+    - 'json'
+    - 'yaml'
+  # the name environment variable to use to determine the environment
+  env_var: 'APP_ENV'
+  # timeout for stopping containers
+  stop_timeout: 10800
+  # the services
+  apps:
+    app:
+      # the path of the compose file from docker path
+      compose_files:
+        - 'php.yml'
+  docker_root: 'docker'
+  machine_name: false
+  network_name: 'dt'
+  host_name: false
+  commands:
+    app:
+  volumes: []
+stage:
+  debug: false
+prod:
+  debug: false

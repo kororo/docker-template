@@ -1,3 +1,5 @@
 .idea
 data
 src
+__pycache__
+docker_template.egg-info

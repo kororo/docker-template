@@ -1,0 +1,16 @@
+### Package manager ###
+pip
+
+### CLI framework ###
+cement>=2.10
+configobj>=5.0
+pyYaml>=3.12
+requests!=2.11.0,!=2.12.2,!=2.18.0,<2.19,>=2.6.1
+docker<4.0,>=3.3.0
+docker-compose>=1.21.2
+python-docker-machine>=0.2
+sh>=1.12
+python-hosts>=0.4.0
+libtmux>=0.7.3
+watchdog>=0.8.3
+automodinit

@@ -36,3 +36,4 @@ MacOS/UNIX
 .. code:: bash
 
     ./docker.sh exec mysql bash -c "mysql -u root -pwordpress_password1 wordpress < /data/backup.sql"
+    ./docker.sh exec mysql bash -c "mysqldump -u root -pwordpress_password1 wordpress > /data/backup.sql"
