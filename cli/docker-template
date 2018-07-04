@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+import os
+from cement.core.exc import CaughtSignal
+from cement.ext.ext_argparse import expose, ArgparseArgumentHandler
+from cement.core.foundation import CementApp
+from cement.utils.misc import init_defaults
+from cli.app import commons, commands
+from cli.app.commons import APP_NAME, DTBaseController
+
+
+# define our default configuration options
+defaults = init_defaults(APP_NAME)
+
+
+class DTController(DTBaseController):
+    class Meta:
+        label = 'base'
+        description = 'CLI for dt framework'
+        arguments = [
+            (['-E', '--environment'],
+             dict(help='Environment',
+                  action='store',
+                  nargs='?',
+                  default='dev',
+                  dest='env')),
+            (['-rc', '--receipt'], dict(metavar='STR', action='store', help='the notorious foo option')),
+            (['-C'], dict(action='store_true', help='the big C option')),
+        ]
+
+    @expose(hide=True)
+    def default(self):
+        self.app.log.info('Inside MyBaseController.default()')
+        if self.app.pargs.env:
+            print('Current env %s' % app.config.get(APP_NAME, 'env'))
+        return {}
+
+    @expose(aliases=['cfg'], help="Configure application")
+    def configure(self):
+        self.app.log.info("TODO")
+
+    @expose(aliases=['info'], help="Application info")
+    def info(self):
+        self.app.log.info("Env: {env}".format(env=self.app.pargs.env))
+
+
+class DTArgparseArgumentHandler(ArgparseArgumentHandler):
+    class Meta:
+        label = 'dt_argparse'
+        ignore_unknown_arguments = True
+
+
+# get commands from config
+controllers = [cmd['controller'] for cmd in commons.get_commands()]
+
+
+class DTApp(CementApp):
+    class Meta:
+        label = APP_NAME
+        extensions = ['yaml_configobj']
+        base_controller = 'base'
+        config_handler = 'yaml_configobj'
+        config_defaults = defaults
+        config_files = [
+            # base definition
+            '{path}/{app_name}.yml'.format(path=commons.get_dt_path(), app_name=APP_NAME),
+            # user definition
+            './{app_name}.yml'.format(app_name=APP_NAME)
+        ]
+        argument_handler = 'dt_argparse'
+        handlers = [DTArgparseArgumentHandler, DTController] + controllers
+        hooks = []
+
+
+with DTApp() as app:
+    def prepare_env(app):
+        # get the environment variable to use
+        env_var = app.config.get(APP_NAME, 'env_var')
+        # get the value
+        app_env = os.environ.get(env_var)
+        app_env = app_env if app_env else 'dev'
+        # set the env
+        app.config.set(APP_NAME, 'env', app_env)
+        # start merging the config
+        if app.config.has_section(app_env):
+            section_values = app.config.get_section_dict(app_env)
+            app.config.merge({APP_NAME: section_values}, override=True)
+
+
+    # register hooks
+    app.hook.register('post_argument_parsing', prepare_env, weight=0)
+
+    try:
+        app.run()
+    except CaughtSignal as ex:
+        print('Caught signal, exiting...')

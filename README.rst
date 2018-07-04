@@ -191,7 +191,7 @@ Spaces
 Spaces is the way to organised what application you could bootstrap quickly
 
 - Wordpress: `docs/wordpress <https://github.com/kororo/docker-template/tree/master/docs/wordpress.rst>`_
-- PHP7: `docs/php <https://github.com/kororo/docker-template/tree/master/docs/php.rst>`_
+- Drupal: `docs/drupal <https://github.com/kororo/docker-template/tree/master/docs/drupal.rst>`_
 
 FAQ
 ---
