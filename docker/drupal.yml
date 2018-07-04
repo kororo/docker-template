@@ -16,6 +16,11 @@ services:
   mysql:
     build: "./mysql"
     hostname: "mysql"
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: Password1
+      MYSQL_ROOT_PASSWORD: Password1
     ports:
       - "10002:3306"
     restart: on-failure

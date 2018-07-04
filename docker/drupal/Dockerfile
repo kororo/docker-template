@@ -14,17 +14,23 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 # setup Apache
 RUN a2enmod rewrite
 COPY ./files/php.ini /usr/local/etc/php/
-COPY ./files/d8.conf /etc/apache2/sites-available/000-default.conf
+    COPY ./files/d8.conf /etc/apache2/sites-available/000-default.conf
 
 # install composer
 RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1b137f8bf6db3e79a38a5bc45324414a6b1f9df2/web/installer -O - -q | php -- --quiet && \
     mv composer.phar /usr/local/bin/composer && \
-    composer global require hirak/prestissimo && \
-    echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> ~/.bashrc && \
-    . ~/.bashrc
+    composer global require hirak/prestissimo
+
+# add path
+ENV PATH "$PATH:/root/.composer/vendor/bin"
 
 # install drush
 RUN composer global require drush/drush ^9.2
 
+# copy files
+COPY ./files/startup /script/startup
+COPY ./files/drupal-install.sh /script/drupal-install.sh
+
 # fix permission
+RUN chmod +x /script/drupal-install.sh
 RUN usermod -u 1000 www-data
